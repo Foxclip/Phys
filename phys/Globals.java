@@ -24,5 +24,6 @@ public final class Globals {
     static double simulationSpeedExponent = -2;
     static boolean pause = true;
     final static int TARGET_FPS = 100;
+    final static int MAX_FRAME_TIME = (int)(0.1 * 1000000000);
     
 }

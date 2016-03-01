@@ -259,6 +259,9 @@ class MyPanel extends JPanel implements Runnable, KeyListener {
             if(!variableTimestep)
                 delta = 1;
             delta *= simulationSpeed;
+            double maxDelta = MAX_FRAME_TIME / OPTIMAL_TIME;
+            if(delta > maxDelta)
+                delta = maxDelta;
             
             gameUpdate(delta);
             repaint();
