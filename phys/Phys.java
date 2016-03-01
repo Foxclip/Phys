@@ -62,13 +62,13 @@ class MyPanel extends JPanel implements Runnable, KeyListener {
 //            for(int i = 0; i < 1000; i++) {
 //               objects.add(generateRandomPhysObject("ball"));
 //            }
-            for(int i = 0; i < 30; i++) {
-                for(int j = 0; j < 30; j++) {
-                    objects.add(new Ball(i*20+100+random()-0.5, j*20+100, 5, 0, 1, Utils.randomColor()));
-                }
-            }
-            //objects.add(new Ball(800, 401, 30, -150, 0, Color.red));
-//            objects.add(new Ball(600, 200, 10, 0, 0, Color.green)); 
+//            for(int i = 0; i < 30; i++) {
+//                for(int j = 0; j < 30; j++) {
+//                    objects.add(new Ball(i*20+100+random()-0.5, j*20+100, 5, 0, 1, Utils.randomColor()));
+//                }
+//            }
+            objects.add(new Ball(200, 280, 30, 1, 0, Color.green));
+            objects.add(new Ball(800, 320, 30, -1, 0, Color.red));
 //            objects.add(new Ball(400, 400, 10, 0, 0, Color.blue));
 //        objects.add(new Ball(100, 350, 30, 1, 0, Color.white));
 //            for(int i = 0; i < 5; i++) {
@@ -229,7 +229,7 @@ class MyPanel extends JPanel implements Runnable, KeyListener {
                 for(PhysObject object1 : objects)
                     for(PhysObject object2 : objects) {
                         if(object1 == object2) continue;
-                        PhysObject.collide(object1, object2);
+                        PhysObject.collide(object1, object2, delta);
                     }
         }
     }

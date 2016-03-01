@@ -54,9 +54,9 @@ public abstract class PhysObject {
             speedY = 0;
     }
     
-    public static void collide(PhysObject obj1, PhysObject obj2) {
+    public static void collide(PhysObject obj1, PhysObject obj2, double delta) {
         if(obj1.getClass() == Ball.class && obj2.getClass() == Ball.class) {
-            Ball.collideBalls((Ball)obj1, (Ball)obj2);
+            Ball.collideBalls((Ball)obj1, (Ball)obj2, delta);
         }
     }
     
@@ -206,15 +206,30 @@ class Ball extends PhysObject {
         
     }
     
-    public static void collideBalls(Ball b1, Ball b2) {
+    public static void collideBalls(Ball b1, Ball b2, double delta) {
         
-        double distance = Utils.distance(b1.x, b2.x, b1.y, b2.y);
-        if(distance == 0)
-            return;
-        double overlap = b1.radius + b2.radius - distance;
-        
-        if(overlap <= 0)
-            return;
+        double r = pow(b1.radius + b2.radius, 2);
+        double x = b2.x - b1.x;
+        double y = b2.y - b1.y;
+        double sx = b2.speedX - b1.speedX;
+        double sy = b2.speedY - b1.speedY;
+        double a = x*x + y*y;
+        double b = a - r;
+        double c = sx*sx + sy*sy;
+        double d = 2*sx*x - 2*sy*y;
+        double determinant = d*d - 4*b*c;
+        if(determinant < 0) return;
+        double e = sqrt(determinant);
+        double f = 2*c;
+        double t1 = (-e + d)/f;
+        double t2 = (e + d)/f;
+        double t = min(t1, t2);
+        if(t < 0) return;
+        if(t > 1) return;
+        b1.x += t*b1.speedX;
+        b1.y += t*b1.speedY;
+        b2.x += t*b2.speedX;
+        b2.y += t*b2.speedY;
 
         double b1Speed = sqrt(pow(b1.speedX, 2) + pow(b1.speedY, 2));
         double b2Speed = sqrt(pow(b2.speedX, 2) + pow(b2.speedY, 2));
@@ -233,12 +248,6 @@ class Ball extends PhysObject {
         b1.speedY = b1NewSpeedXRot * sin(collisionAngle) + b1SpeedYRot * sin(collisionAngle + PI/2);
         b2.speedX = b2NewSpeedXRot * cos(collisionAngle) + b2SpeedYRot * cos(collisionAngle + PI/2);
         b2.speedY = b2NewSpeedXRot * sin(collisionAngle) + b2SpeedYRot * sin(collisionAngle + PI/2);
-        
-        double k = overlap / distance;
-        b1.x += (b1.x - b2.x)*k/2;
-        b1.y += (b1.y - b2.y)*k/2;
-        b2.x += (b2.x - b1.x)*k/2;
-        b2.y += (b2.y - b1.y)*k/2;
         
     }
     
