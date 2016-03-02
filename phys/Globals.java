@@ -18,7 +18,7 @@ public final class Globals {
     static double springMaxConnections = 600000;
     static double backgroundFrictionForce = 1;
     static double cubucPixelMass = 0.001;
-    final static double DAMPING = 0.5;
+    final static double DAMPING = 1;
     
     static boolean variableTimestep = true;
     static double simulationSpeedExponent = 0;
